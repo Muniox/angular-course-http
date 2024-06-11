@@ -8,16 +8,18 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   loadedPosts = [];
+  private URL: string = import.meta.env.NG_APP_URL;
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchPosts()
+  }
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
-    console.log(import.meta.env.NG_APP_URL);
     this.http
-      .post(`${import.meta.env.NG_APP_URL}posts.json`, postData)
+      .post(URL + 'posts.json', postData)
       .subscribe((responseData) => {
         console.log(responseData);
       });
@@ -25,9 +27,16 @@ export class AppComponent implements OnInit {
 
   onFetchPosts() {
     // Send Http request
+    this.fetchPosts()
   }
 
   onClearPosts() {
     // Send Http request
+  }
+
+  private fetchPosts() {
+    this.http.get(this.URL + 'posts.json').subscribe((posts) => {
+      console.log(posts);
+    })
   }
 }
