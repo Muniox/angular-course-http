@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {map} from "rxjs";
+import { map } from 'rxjs';
+import { Post } from './post.model';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,13 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.fetchPosts()
+    this.fetchPosts();
   }
 
-  onCreatePost(postData: { title: string; content: string }) {
+  onCreatePost(postData: Post) {
     // Send Http request
     this.http
-      .post(URL + 'posts.json', postData)
+      .post<{ name: string }>(URL + 'posts.json', postData)
       .subscribe((responseData) => {
         console.log(responseData);
       });
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit {
 
   onFetchPosts() {
     // Send Http request
-    this.fetchPosts()
+    this.fetchPosts();
   }
 
   onClearPosts() {
@@ -36,18 +37,21 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts() {
-    this.http.get(this.URL + 'posts.json')
-      .pipe(map((responseData) => {
-        const postsArray = []
-        for (const key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            postsArray.push({...responseData[key], id: key});
+    this.http
+      .get<{ [key: string]: Post }>(this.URL + 'posts.json')
+      .pipe(
+        map((responseData) => {
+          const postsArray: Post[] = [];
+          for (const key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+              postsArray.push({ ...responseData[key], id: key });
+            }
           }
-        }
-        return postsArray;
-      }))
+          return postsArray;
+        })
+      )
       .subscribe((posts) => {
-      console.log(posts);
-    })
+        console.log(posts);
+      });
   }
 }
