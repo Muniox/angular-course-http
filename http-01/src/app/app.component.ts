@@ -11,16 +11,22 @@ import { PostService } from './post.service';
 })
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
-
   isFetching: boolean = false;
+  error = null;
 
   constructor(private http: HttpClient, private postService: PostService) {}
 
   ngOnInit() {
     this.isFetching = true;
-    this.postService.fetchPosts().subscribe((posts) => {
-      this.isFetching = false;
-      this.loadedPosts = posts;
+    this.postService.fetchPosts().subscribe({
+      next: (posts) => {
+        this.isFetching = false;
+        this.loadedPosts = posts;
+      },
+      error: (error) => {
+        this.error = error.message;
+        console.log(error);
+      },
     });
   }
 
@@ -32,9 +38,14 @@ export class AppComponent implements OnInit {
   onFetchPosts() {
     // Send Http request
     this.isFetching = true;
-    this.postService.fetchPosts().subscribe((posts) => {
-      this.isFetching = false;
-      this.loadedPosts = posts;
+    this.postService.fetchPosts().subscribe({
+      next: (posts) => {
+        this.isFetching = false;
+        this.loadedPosts = posts;
+      },
+      error: (error) => {
+        this.error = error.message;
+      },
     });
   }
 
