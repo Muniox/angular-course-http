@@ -19,6 +19,10 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     // if (req.url) {} //jeśli chcemy kontrolować do jakiego url możemy przesyłać żądanie
     console.log('Request is on its way');
-    return next.handle(req);
+    console.log(req.url);
+    const modifiedRequest = req.clone({
+      headers: req.headers.append('Auth', 'xyz'),
+    });
+    return next.handle(modifiedRequest);
   }
 }
