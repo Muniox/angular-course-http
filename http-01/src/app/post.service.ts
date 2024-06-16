@@ -34,7 +34,7 @@ export class PostService {
   }
 
   fetchPosts() {
-    //mulitiple params
+    //multiple params
     let searchParams = new HttpParams();
     searchParams = searchParams.append('print', 'pretty');
     searchParams = searchParams.append('custom', 'key');
@@ -58,7 +58,7 @@ export class PostService {
           return postsArray;
         }),
         catchError((errorRes) => {
-          //send to analitycs server
+          //send to analytics server
           //niezwiązane z UI
           return throwError(() => errorRes);
         })

@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // if (req.url) {} //jeśli chcemy kontrolować do jakiego url możemy przesyłać żądanie
+    // if (req.url) {} //jeśli chcemy kontrolować, do jakiego url możemy przesyłać żądanie
     const modifiedRequest = req.clone({
       headers: req.headers.append('Auth', 'xyz'),
     });

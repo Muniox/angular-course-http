@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subscription, map } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Post } from './post.model';
 import { PostService } from './post.service';
 
@@ -15,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy {
   error = null;
   private errorSub: Subscription;
 
-  constructor(private http: HttpClient, private postService: PostService) {}
+  constructor(private postService: PostService) {}
 
   ngOnInit() {
     this.errorSub = this.postService.error.subscribe((errorMessage) => {

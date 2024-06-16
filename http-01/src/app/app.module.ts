@@ -11,7 +11,7 @@ import { LoggingInterceptorService } from './logging.interceptor';
   declarations: [AppComponent],
   imports: [BrowserModule, FormsModule, HttpClientModule],
   providers: [
-    //kolejność interseptorów ma znaczenie
+    //kolejność interceptor ma znaczenie
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
